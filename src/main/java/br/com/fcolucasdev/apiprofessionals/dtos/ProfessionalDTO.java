@@ -4,8 +4,8 @@ import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
-import br.com.fcolucasdev.apiprofessionals.entities.Contact;
 import br.com.fcolucasdev.apiprofessionals.entities.Professional;
 import lombok.Data;
 
@@ -16,13 +16,13 @@ public class ProfessionalDTO {
   private String position;
   private LocalDateTime bornDate;
   private LocalDateTime createdAt;
-  private Set<Contact> contacts = new HashSet<>();
+  private Set<ContactDTO> contacts = new HashSet<>();
 
   public ProfessionalDTO() {
   }
 
   public ProfessionalDTO(UUID id, String name, String position, LocalDateTime bornDate, LocalDateTime createdAt,
-      Set<Contact> contacts) {
+      Set<ContactDTO> contacts) {
     this.id = id;
     this.name = name;
     this.position = position;
@@ -37,6 +37,6 @@ public class ProfessionalDTO {
     this.position = professional.getPosition();
     this.bornDate = professional.getBornDate();
     this.createdAt = professional.getCreatedAt();
-    this.contacts = professional.getContacts();
+    this.contacts = professional.getContacts().stream().map(ContactDTO::new).collect(Collectors.toSet());
   }
 }

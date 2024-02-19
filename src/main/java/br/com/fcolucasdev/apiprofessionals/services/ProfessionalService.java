@@ -21,41 +21,47 @@ public class ProfessionalService {
 
   @Transactional
   public List<Object> findAll(String q, List<String> fields) {
-    List<Professional> professionalList = professionalRepository
+    var professionalList = professionalRepository
         .findByNameContainingIgnoreCaseOrPositionContainingIgnoreCase(q, q);
+
+    var professionalsDto = professionalList.stream().map(ProfessionalDTO::new).collect(Collectors.toList());
     // return a list of professionals with only the fields informed
-    return professionalList.stream().map(professional -> Utils.filterFields(professional, fields))
+    return professionalsDto.stream().map(professional -> Utils.filterFields(professional, fields))
         .collect(Collectors.toList());
   }
 
   @Transactional
-  public Professional create(ProfessionalDTO professionalDto) {
+  public ProfessionalDTO create(ProfessionalDTO professionalDto) {
     var professional = new Professional();
     professional.setName(professionalDto.getName());
     professional.setPosition(professionalDto.getPosition());
     professional.setBornDate(professionalDto.getBornDate());
-    return professionalRepository.save(professional);
+
+    var professionalSaved = professionalRepository.save(professional);
+    return new ProfessionalDTO(professionalSaved);
   }
 
   @Transactional
-  public Professional get(UUID id) throws Exception {
+  public ProfessionalDTO findById(UUID id) throws Exception {
     var professional = professionalRepository.findById(id).orElse(null);
     if (professional == null) {
       throw new Exception("Profissional não encontrado");
     }
 
-    return professional;
+    return new ProfessionalDTO(professional);
   }
 
   @Transactional
-  public Professional update(UUID id, ProfessionalDTO professionalDTO) throws Exception {
+  public ProfessionalDTO update(UUID id, ProfessionalDTO professionalDTO) throws Exception {
     var professional = professionalRepository.findById(id).orElse(null);
     if (professional == null) {
       throw new Exception("Profissional não encontrado");
     }
 
     Utils.copyNonNullProperties(professionalDTO, professional);
-    return professionalRepository.save(professional);
+
+    var professionalSaved = professionalRepository.save(professional);
+    return new ProfessionalDTO(professionalSaved);
   }
 
   @Transactional

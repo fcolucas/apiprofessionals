@@ -29,6 +29,6 @@ public class Professional {
   @CreationTimestamp
   private LocalDateTime createdAt;
 
-  @OneToMany(mappedBy = "professional", fetch = FetchType.EAGER)
+  @OneToMany(mappedBy = "professional", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
   private Set<Contact> contacts = new HashSet<>();
 }

@@ -27,14 +27,13 @@ public class ProfessionalController {
   private ProfessionalService professionalService;
 
   @GetMapping
-  public ResponseEntity<List<Object>> list(@RequestParam(required = false) String q,
+  public ResponseEntity list(@RequestParam(required = false) String q,
       @RequestParam(required = false) List<String> fields) {
     try {
       var professionalList = professionalService.findAll(q, fields);
       return ResponseEntity.ok().body(professionalList);
     } catch (Exception e) {
-      return ResponseEntity.badRequest().body(
-          List.of("Erro ao buscar profissionais", e.getMessage()));
+      return ResponseEntity.badRequest().body(e.getMessage());
     }
   }
 
@@ -51,7 +50,7 @@ public class ProfessionalController {
   @GetMapping("/{id}")
   public ResponseEntity get(@PathVariable UUID id) {
     try {
-      var professional = professionalService.get(id);
+      var professional = professionalService.findById(id);
       return ResponseEntity.ok().body(professional);
     } catch (Exception e) {
       return ResponseEntity.badRequest().body(e.getMessage());

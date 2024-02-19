@@ -36,7 +36,7 @@ public class Utils {
     final BeanWrapper src = new BeanWrapperImpl(source);
     PropertyDescriptor[] pds = src.getPropertyDescriptors(); // list of fields in the source object
 
-    if (fields.isEmpty()) {
+    if (fields == null || fields.isEmpty()) {
       return source;
     }
 
