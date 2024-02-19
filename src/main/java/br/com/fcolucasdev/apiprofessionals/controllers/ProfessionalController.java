@@ -20,7 +20,7 @@ import br.com.fcolucasdev.apiprofessionals.dtos.ProfessionalDTO;
 import br.com.fcolucasdev.apiprofessionals.services.ProfessionalService;
 
 @RestController
-@RequestMapping("/profissionais")
+@RequestMapping(value = "/profissionais", consumes = "application/json", produces = "application/json")
 public class ProfessionalController {
 
   @Autowired

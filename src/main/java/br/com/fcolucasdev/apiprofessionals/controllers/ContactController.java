@@ -19,7 +19,7 @@ import br.com.fcolucasdev.apiprofessionals.dtos.ContactDTO;
 import br.com.fcolucasdev.apiprofessionals.services.ContactService;
 
 @RestController
-@RequestMapping("/contatos")
+@RequestMapping(value = "/contatos", consumes = "application/json", produces = "application/json")
 public class ContactController {
 
   @Autowired
