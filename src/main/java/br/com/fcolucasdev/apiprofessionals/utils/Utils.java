@@ -3,6 +3,7 @@ package br.com.fcolucasdev.apiprofessionals.utils;
 import java.beans.PropertyDescriptor;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.List;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeanWrapper;
@@ -29,5 +30,23 @@ public class Utils {
 
     String[] result = new String[emptyNames.size()];
     return emptyNames.toArray(result);
+  }
+
+  public static Object filterFields(Object source, List<String> fields) {
+    final BeanWrapper src = new BeanWrapperImpl(source);
+    PropertyDescriptor[] pds = src.getPropertyDescriptors(); // list of fields in the source object
+
+    if (fields.isEmpty()) {
+      return source;
+    }
+
+    for (PropertyDescriptor pd : pds) {
+      if (!pd.getName().equals("class") && !pd.getName().equals("id") && !fields.contains(pd.getName())) {
+        src.setPropertyValue(pd.getName(), null);
+
+      }
+    }
+
+    return src.getWrappedInstance();
   }
 }

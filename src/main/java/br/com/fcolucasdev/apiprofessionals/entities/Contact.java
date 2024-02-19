@@ -1,34 +1,31 @@
 package br.com.fcolucasdev.apiprofessionals.entities;
 
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.UUID;
 
 import org.hibernate.annotations.CreationTimestamp;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import lombok.Data;
 
 @Data
-@Entity(name = "tb_professional")
-public class Professional {
+@Entity(name = "tb_contact")
+public class Contact {
   @Id
   @GeneratedValue(generator = "UUID")
   private UUID id;
 
   private String name;
-  private String position;
-  private LocalDateTime bornDate;
+  private String contact;
 
   @CreationTimestamp
   private LocalDateTime createdAt;
 
-  @OneToMany(mappedBy = "professional", fetch = FetchType.EAGER)
-  private Set<Contact> contacts = new HashSet<>();
+  @ManyToOne
+  @JoinColumn(name = "professional_id")
+  private Professional professional;
 }
