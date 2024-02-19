@@ -1,8 +1,8 @@
 package br.com.fcolucasdev.apiprofessionals.entities;
 
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import org.hibernate.annotations.CreationTimestamp;
@@ -30,5 +30,5 @@ public class Professional {
   private LocalDateTime createdAt;
 
   @OneToMany(mappedBy = "professional", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-  private Set<Contact> contacts = new HashSet<>();
+  private List<Contact> contacts = new ArrayList<>();
 }
